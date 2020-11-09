@@ -6,15 +6,39 @@
 [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-250-green.svg)](http://androidweekly.net/issues/issue-250)
 [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-271-green.svg)](http://androidweekly.net/issues/issue-271)  
 
-![](https://habrastorage.org/files/644/32e/9eb/64432e9eb3664723b3ee438449dab3b0.png)
+<table>
+    <tr>
+        <td>
+            <img src="https://github.com/terrakok/Cicerone/raw/master/media/navigation.gif" width="256"/>
+        </td>
+        <td>
+            <img src="https://github.com/terrakok/Cicerone/raw/master/media/insta_tabs.gif" width="256"/>
+        </td>
+        <td>
+            <img src="https://github.com/terrakok/Cicerone/raw/master/media/animations.gif" width="256"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Power navigation
+        </td>
+        <td>
+            Multibackstack
+        </td>
+        <td>
+            Result listeners
+        </td>
+    </tr>
+</table>
 
-Cicerone (a guide, one who conducts sightseers) is a lightweight library that makes the navigation in an Android app easy.  
+Cicerone (means - a guide, one who conducts sightseers) is a lightweight library that makes the navigation in an Android app easy.  
 It was designed to be used with the MVP/MVVM/MVI patterns but will work great with any architecture.
 
 ## Main advantages
 + is not tied to Fragments
-+ not a framework
++ not a framework (very lightweight)
 + short navigation calls (no builders)
++ static typed checks for screen parameters!
 + lifecycle-safe!
 + functionality is simple to extend
 + suitable for Unit Testing
@@ -109,13 +133,13 @@ override fun onPause() {
 ## Navigation commands
 This commands set will fulfill the needs of the most applications. But if you need something special - just add it!
 + Forward - Opens new screen
-![](https://github.com/terrakok/Cicerone/raw/develop/media/forward_img.png)
+![](https://github.com/terrakok/Cicerone/raw/master/media/forward_img.png)
 + Back - Rolls back the last transition
-![](https://github.com/terrakok/Cicerone/raw/develop/media/back_img.png)
+![](https://github.com/terrakok/Cicerone/raw/master/media/back_img.png)
 + BackTo - Rolls back to the needed screen in the screens chain
-![](https://github.com/terrakok/Cicerone/raw/develop/media/backTo_img.png)
+![](https://github.com/terrakok/Cicerone/raw/master/media/backTo_img.png)
 + Replace - Replaces the current screen
-![](https://github.com/terrakok/Cicerone/raw/develop/media/replace_img.png)
+![](https://github.com/terrakok/Cicerone/raw/master/media/replace_img.png)
 
 ## Predefined navigator
 The library provides predefined navigator for _Fragments_ and _Activity_.
@@ -147,21 +171,21 @@ private val navigator = object : AppNavigator(this, R.id.container) {
 Describe your screens as you like e.g. create Kotlin `object` with all application screens:
 ```kotlin
 object Screens {
-    val Main = FragmentScreen("MainFragment") { MainFragment() }
-    val AddressSearch = FragmentScreen("AddressSearchFragment") { AddressSearchFragment() }
-    fun Profile(userId: Long) = FragmentScreen("ProfileFragment") { ProfileFragment(userId) }
+    fun Main() = FragmentScreen { MainFragment() }
+    fun AddressSearch() = FragmentScreen { AddressSearchFragment() }
+    fun Profile(userId: Long) = FragmentScreen("Profile_$userId") { ProfileFragment(userId) }
 }
 ```
 
 Additional you can use `FragmentFactory` for creating your screens:
 ```kotlin
-val SomeScreen = FragmentScreen("SomeScreenId") { factory: FragmentFactory -> ... }
+fun SomeScreen() = FragmentScreen { factory: FragmentFactory -> ... }
 ```
 
 ## Screen parameters and result listener
 ```kotlin
 //you have to specify screen parameters via new FragmentScreen creation
-fun SelectPhoto(resultKey: String) = FragmentScreen("SelectPhoto") {
+fun SelectPhoto(resultKey: String) = FragmentScreen {
     SelectPhotoFragment.getNewInstance(resultKey)
 }
 ```
@@ -188,9 +212,15 @@ To see how to add, initialize and use the library and predefined navigators see 
 
 For more complex use case check out the [GitFox (Android GitLab client)](https://gitlab.com/terrakok/gitlab-client)
 
-![](https://github.com/terrakok/Cicerone/raw/develop/media/navigation.gif)
-![](https://github.com/terrakok/Cicerone/raw/develop/media/insta_tabs.gif)
-![](https://github.com/terrakok/Cicerone/raw/develop/media/animations.gif)
+## Applications with Cicerone inside
+<a href="https://play.google.com/store/apps/details?id=ru.foodfox.client"><img src="https://play-lh.googleusercontent.com/gWYedIqy8QujCQOn0kzEIBEkGLBSpuKvFm-fMcfkWnJ1Oirtv847xAE4OyhAaohdcp5V=s360" width="64" /> Яндекс.Еда — доставка еды/продуктов. Food delivery</a><br>
+<a href="https://play.google.com/store/apps/details?id=com.foodient.whisk"><img src="https://play-lh.googleusercontent.com/eKotZjJcZOU2_L9t2l34EEY7aGl5zhvKVuEbF0Kc4MRs_pAC2SJgOnWMkMTFjR_e9EY=s360" width="64" /> Whisk: Recipe Saver, Meal Planner & Grocery List</a><br>
+<a href="https://play.google.com/store/apps/details?id=kz.beeline.odp"><img src="https://play-lh.googleusercontent.com/hzgjpQQpy6Z-Byye0aVKSv9P7h8yx58i6pVkQtiM6jB99iWFXjYfKeaPqJ3wm6Rtb38=s360" width="64" /> Мой Beeline (Казахстан)</a><br>
+<a href="https://play.google.com/store/apps/details?id=com.mercuryo.app"><img src="https://play-lh.googleusercontent.com/FKulXdc15r5PWX6hTZi2i3iaJjcQHwd9xParp6YPiQ2KiBqza7jwEt_b_tqLwXpyEHg=s360" width="64" /> Mercuryo Bitcoin Cryptowallet</a><br>
+<a href="https://play.google.com/store/apps/details?id=com.warefly.checkscan"><img src="https://play-lh.googleusercontent.com/2c2uuiSl2vwGgp-vdI-VArQEMdSSXk1neUK5A-Udc0WANPcvp5kBJFEugrFiXnxUc7k=s360" width="64" /> ЧекСкан - кэшбэк за чеки, цены и акции в магазинах</a><br>
+<a href="https://github.com/eduard1abdulmanov123/News"><img src="https://raw.githubusercontent.com/eduard1abdulmanov123/News/dev/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="64" /> RSS Reader для Вести.Ru</a><br>
+<a href="https://play.google.com/store/apps/details?id=com.epam.connect.android"><img src="https://play-lh.googleusercontent.com/aN7R6BiR7yt7b3oEoBI30pVwzsdzaWe3TWpw8c9igqoOj79Pm2xVh4_C4qwjSKwjVio=s360" width="64" /> EPAM Connect</a><br>
+<a href="https://play.google.com/store/apps/details?id=org.consumerreports.ratings"><img src="https://play-lh.googleusercontent.com/dEdOwZOjXAdamytxY1TgY8LS-Hc9FKCcit5HP1RyaKqRAWjDJEyFSQS1XlqQPpeY5UI=s360" width="64" /> Consumer Reports: Product Reviews & Ratings</a><br>
 
 ## Participants
 + idea and code - Konstantin Tskhovrebov (@terrakok)

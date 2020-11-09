@@ -2,16 +2,23 @@ package com.github.terrakok.cicerone
 
 import java.lang.ref.WeakReference
 
-internal class ResultWire {
-    private val listeners = mutableMapOf<String, WeakReference<(Any) -> Unit>>()
+/**
+ * Interface definition for a result callback.
+ */
+fun interface ResultListener {
+    fun onResult(data: Any)
+}
 
-    fun setResultListener(key: String, listener: (data: Any) -> Unit) {
+internal class ResultWire {
+    private val listeners = mutableMapOf<String, WeakReference<ResultListener>>()
+
+    fun setResultListener(key: String, listener: ResultListener) {
         listeners[key] = WeakReference(listener)
     }
 
     fun sendResult(key: String, data: Any) {
         listeners.remove(key)?.get()?.let { listener ->
-            listener(data)
+            listener.onResult(data)
         }
     }
 

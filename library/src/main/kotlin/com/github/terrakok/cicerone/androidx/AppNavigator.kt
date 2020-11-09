@@ -13,11 +13,11 @@ import com.github.terrakok.cicerone.androidx.TransactionInfo.Type.REPLACE
  *
  * Recommendation: most useful for Single-Activity application.
  */
-open class AppNavigator constructor(
+open class AppNavigator @JvmOverloads constructor(
     protected val activity: FragmentActivity,
     protected val containerId: Int,
     protected val fragmentManager: FragmentManager = activity.supportFragmentManager,
-    protected val fragmentFactory: FragmentFactory = FragmentFactory()
+    protected val fragmentFactory: FragmentFactory = fragmentManager.fragmentFactory
 ) : Navigator {
 
     protected val localStackCopy = mutableListOf<TransactionInfo>()
@@ -109,6 +109,7 @@ open class AppNavigator constructor(
     ) {
         val fragment = screen.createFragment(fragmentFactory)
         val transaction = fragmentManager.beginTransaction()
+        transaction.setReorderingAllowed(true)
         setupFragmentTransaction(
             transaction,
             fragmentManager.findFragmentById(containerId),
